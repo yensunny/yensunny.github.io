@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light only">
-<title>SUNNY YEN — Graphic Designer</title>
+<title>YEN SUNNY — Graphic Designer</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500;1,700&family=Archivo+Expanded:wght@500;600;800;900&display=swap');
   @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
@@ -20,12 +20,12 @@
   img{display:block;max-width:100%}
 
   /* lang switch fixed — minimal plain text */
-  .langs{position:fixed;top:26px;right:7vw;z-index:200;display:flex;gap:10px;font-size:12px;font-weight:700;letter-spacing:0.08em}
+  .langs{position:fixed;top:26px;right:28px;z-index:200;display:flex;gap:10px;font-size:12px;font-weight:700;letter-spacing:0.08em}
   .langs button{border:none;background:none;cursor:pointer;font:inherit;color:inherit;opacity:.45;padding:0;transition:.2s}
   .langs button:hover{opacity:.8}
   .langs button.on{opacity:1}
   .langs button.on span{border-bottom:1.5px solid currentColor;padding-bottom:2px}
-  @media(max-width:760px){.langs{top:22px;right:7vw}}
+  @media(max-width:760px){.langs{top:22px;right:18px}}
 
   /* ============ COVER : ultra minimal ============ */
   .cover{height:100vh;min-height:560px;background:var(--orange);color:#fff;position:relative;display:flex;flex-direction:column;justify-content:center;padding:0 7vw}
@@ -106,6 +106,31 @@
   .infopage .ip-contact a:hover{color:var(--orange);border-color:var(--orange)}
   .infopage .ip-foot{margin-top:40px;font-size:12px;font-weight:800;letter-spacing:0.12em;color:var(--orange);opacity:.9}
   @media(max-width:520px){.infopage{padding:40px 22px}.infopage .ip-grid{grid-template-columns:1fr}}
+
+  /* ===== LIGHTBOX ===== */
+  .lb{position:fixed;inset:0;z-index:300;background:rgba(20,16,12,.92);backdrop-filter:blur(6px);
+    display:none;align-items:center;justify-content:center;flex-direction:column}
+  .lb.on{display:flex}
+  .lb .lbtop{position:absolute;top:0;left:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 28px;color:#fff;z-index:5}
+  .lb .lbtitle{font-weight:800;font-size:15px}
+  .lb .lbtitle .c{font-size:11px;font-weight:600;opacity:.7;color:var(--orange2);margin-left:10px}
+  .lb .lbclose{background:none;border:none;color:#fff;font-size:26px;cursor:pointer;line-height:1;opacity:.8}
+  .lb .lbclose:hover{opacity:1}
+  .lb .stageimg{max-width:84vw;max-height:74vh;display:flex;align-items:center;justify-content:center}
+  .lb .stageimg img{max-width:84vw;max-height:74vh;object-fit:contain;border-radius:8px;background:#fff}
+  .lb .arrow{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:22px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:.2s;z-index:5}
+  .lb .arrow:hover{background:var(--orange);border-color:var(--orange)}
+  .lb .prev{left:24px}.lb .next{right:24px}
+  .lb .dots{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:5}
+  .lb .dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);transition:.2s;cursor:pointer}
+  .lb .dots i.on{background:var(--orange);transform:scale(1.3)}
+  .lb .count{position:absolute;bottom:30px;right:28px;color:#fff;font-size:12px;font-weight:700;opacity:.7;z-index:5}
+  /* "more" hint badge on pins that have multiple imgs */
+  .pin .more{position:absolute;top:10px;right:10px;background:rgba(20,16,12,.7);color:#fff;font-size:10px;font-weight:800;
+    padding:4px 8px;border-radius:20px;letter-spacing:0.04em;z-index:3;display:flex;align-items:center;gap:4px}
+  @media(max-width:760px){.lb .arrow{width:42px;height:42px;font-size:18px}.lb .prev{left:10px}.lb .next{right:10px}}
 </style>
 </head>
 <body>
@@ -115,7 +140,7 @@
 <!-- ===== COVER ===== -->
 <section class="cover" id="cover">
   <div class="topbar"><span>CHANG YEN JU</span></div>
-  <h1 class="ex">SUNNY<br>YEN</h1>
+  <h1 class="ex">YEN<br>SUNNY</h1>
   <div class="meta">
     <div class="role ko" data-i="tagline">서울에서 일하는 대만 출신 그래픽 디자이너</div>
     <div class="cue"><span data-i="port">SUNNY'S PORTFOLIO</span> · <span data-i="cue">SCROLL ↓</span></div>
@@ -133,7 +158,7 @@
         <use href="#ray" transform="rotate(225 50 50)"/><use href="#ray" transform="rotate(270 50 50)"/>
         <use href="#ray" transform="rotate(315 50 50)"/>
       </g></svg>
-      SUNNY YEN
+      YEN SUNNY
     </div>
     <a class="contact" href="mailto:yen158ru@gmail.com" style="display:none">yen158ru@gmail.com</a>
   </div>
@@ -192,16 +217,47 @@
   </div>
 </section>
 
+<!-- ===== LIGHTBOX ===== -->
+<div class="lb" id="lb">
+  <div class="lbtop">
+    <div class="lbtitle" id="lbTitle"></div>
+    <button class="lbclose" id="lbClose" aria-label="close">✕</button>
+  </div>
+  <button class="arrow prev" id="lbPrev" aria-label="prev">‹</button>
+  <div class="stageimg"><img id="lbImg" src="" alt=""></div>
+  <button class="arrow next" id="lbNext" aria-label="next">›</button>
+  <div class="dots" id="lbDots"></div>
+  <div class="count" id="lbCount"></div>
+</div>
+
 <script>
   // ---- data: each category has its pins (varied heights for masonry) ----
   var DATA=[
-    {title:'BRAND',cnt:'30+ PROJECTS',pins:[
-      {n:'Byway Bakers',c:'베이커리 브랜딩 · LOGO',img:'images/brand/byway-bakers.png'},
-      {n:'Open the Kitchen',c:'앱 디자인 · LOGO',img:'images/brand/open-the-kitchen.png'},
-      {n:'Pizza 39',c:'피자 브랜드 · LOGO',img:'images/brand/pizza-39.png'},
-      {n:'森然設計',c:'인테리어 · LOGO',h:280},{n:'CHAT HOTEL',c:'고양이호텔',h:200},
-      {n:'the SAHARA CAFE',c:'카페 브랜딩',h:240},{n:'Dr. Wu',c:'워싱턴 치과',h:170},
-      {n:'SAN FANG',c:'실내화 브랜드',h:220},{n:'FANTAST',c:'여행사',h:260}
+    {title:'BRAND',cnt:'3 PROJECTS',pins:[
+      {n:'Pizza 39 · Pizza Samgu',c:'피자 브랜드 · 캐릭터 · 패키지',imgs:[
+        'images/brand/pizza-39.png',
+        'images/brand/pizza39-character-color.png',
+        'images/brand/pizza39-character-app.png',
+        'images/brand/pizza39-character-poster.png',
+        'images/brand/pizza39-visual-poster.png',
+        'images/brand/pizza39-box-tray.png',
+        'images/brand/pizza39-order-sheet.png',
+        'images/brand/pizza39-merch.png'
+      ]},
+      {n:'Open the Kitchen',c:'반찬 브랜드 · 패키지 · 포스터',imgs:[
+        'images/brand/open-the-kitchen.png',
+        'images/brand/openkitchen-package.png',
+        'images/brand/openkitchen-poster.png',
+        'images/brand/openkitchen-jar-set.png',
+        'images/brand/openkitchen-giftbox.png'
+      ]},
+      {n:'Byway Bakers',c:'베이커리 · 카페 브랜딩',imgs:[
+        'images/brand/byway-bakers.png',
+        'images/brand/byway-paperbag.png',
+        'images/brand/byway-financier-box.png',
+        'images/brand/byway-cup-red.png',
+        'images/brand/byway-cup-white.png'
+      ]}
     ]},
     {title:'PACKAGE',cnt:'20+ PROJECTS',pins:[
       {n:'파인애플 케이크',c:'펑리수 패키지',h:300},{n:'에그롤',c:'PACKAGE',h:190},
@@ -256,10 +312,13 @@
     catTitle.textContent=d.title; catCnt.textContent=d.cnt;
     masonry.innerHTML='';
     d.pins.forEach(function(p){
+      var imgs=p.imgs||(p.img?[p.img]:null);
       var el=document.createElement('div');
       el.className='pin';
-      if(p.img){
-        el.innerHTML='<img src="'+p.img+'" alt="'+p.n+'" loading="lazy"><div class="lab ko">'+p.n+'<span class="c">'+p.c+'</span></div>';
+      if(imgs){
+        var badge=imgs.length>1?'<div class="more">＋'+(imgs.length-1)+'</div>':'';
+        el.innerHTML='<img src="'+imgs[0]+'" alt="'+p.n+'" loading="lazy">'+badge+'<div class="lab ko">'+p.n+'<span class="c">'+p.c+'</span></div>';
+        el.addEventListener('click',function(){openLB(p.n,p.c,imgs);});
       }else{
         el.innerHTML='<div class="ph" style="height:'+p.h+'px"><span class="ko">'+p.n+'</span></div><div class="lab ko">'+p.n+'<span class="c">'+p.c+'</span></div>';
       }
@@ -277,6 +336,46 @@
     });
   });
   render(0);
+
+  // ===== LIGHTBOX =====
+  var lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg'),lbTitle=document.getElementById('lbTitle'),
+      lbDots=document.getElementById('lbDots'),lbCount=document.getElementById('lbCount');
+  var lbList=[],lbIdx=0;
+  function openLB(name,cat,imgs){
+    lbList=imgs;lbIdx=0;
+    lbTitle.innerHTML=name+'<span class="c">'+cat+'</span>';
+    lbDots.innerHTML='';
+    imgs.forEach(function(_,i){var d=document.createElement('i');d.addEventListener('click',function(){lbIdx=i;showLB();});lbDots.appendChild(d);});
+    lbDots.style.display=imgs.length>1?'flex':'none';
+    document.getElementById('lbPrev').style.display=imgs.length>1?'flex':'none';
+    document.getElementById('lbNext').style.display=imgs.length>1?'flex':'none';
+    showLB(); lb.classList.add('on');
+  }
+  function showLB(){
+    lbImg.src=lbList[lbIdx];
+    lbCount.textContent=(lbIdx+1)+' / '+lbList.length;
+    lbDots.querySelectorAll('i').forEach(function(d,i){d.classList.toggle('on',i===lbIdx)});
+  }
+  function lbMove(dir){lbIdx=(lbIdx+dir+lbList.length)%lbList.length;showLB();}
+  document.getElementById('lbNext').addEventListener('click',function(){lbMove(1)});
+  document.getElementById('lbPrev').addEventListener('click',function(){lbMove(-1)});
+  document.getElementById('lbClose').addEventListener('click',function(){lb.classList.remove('on')});
+  lb.addEventListener('click',function(e){if(e.target===lb)lb.classList.remove('on')});
+  document.addEventListener('keydown',function(e){
+    if(!lb.classList.contains('on'))return;
+    if(e.key==='Escape')lb.classList.remove('on');
+    if(e.key==='ArrowRight')lbMove(1);
+    if(e.key==='ArrowLeft')lbMove(-1);
+  });
+  // swipe on lightbox
+  var lx=null;
+  lb.addEventListener('touchstart',function(e){lx=e.touches[0].clientX},{passive:true});
+  lb.addEventListener('touchend',function(e){
+    if(lx===null||lbList.length<2)return;
+    var dx=lx-e.changedTouches[0].clientX;
+    if(Math.abs(dx)>40)lbMove(dx>0?1:-1);
+    lx=null;
+  },{passive:true});
 
   // ---- cover -> work : normal page scroll, no hijack ----
   var dict={
